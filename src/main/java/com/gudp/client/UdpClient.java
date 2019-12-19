@@ -4,7 +4,6 @@ import com.gudp.event.ReceiveListener;
 
 import java.io.IOException;
 import java.net.*;
-import java.util.Arrays;
 
 public class UdpClient {
     private int port;
@@ -19,13 +18,13 @@ public class UdpClient {
         address = InetAddress.getByName(host);
     }
 
-    public void send(byte[] buf) throws IOException {
+    public byte[] send(byte[] buf) throws IOException {
         DatagramPacket datagramPacket = new DatagramPacket(buf, buf.length, address, port);
         datagramSocket.send(datagramPacket);
-        receive();
+        return receive();
     }
 
-    public void receive() {
+    private byte[] receive() {
         byte[] receBuf = new byte[1024];
         DatagramPacket recePacket = new DatagramPacket(receBuf, receBuf.length);
         try {
@@ -36,13 +35,14 @@ public class UdpClient {
             if (receiveListener != null) {
                 receiveListener.receive(out);
             }
+            return out;
         } catch (IOException e) {
             e.printStackTrace();
             if (receiveListener != null) {
                 receiveListener.err(e);
             }
         }
-
+        return null;
     }
 
     public void close() {
@@ -52,29 +52,3 @@ public class UdpClient {
     }
 
 }
-    /*
-
-
-    public com.gudp.client.UdpClient() {
-        try {
-            byte[] buf = new byte[]{(byte) 0xBB, (byte) 0x00, (byte) 0x0E, (byte) 0xB5, (byte) 0x02, (byte) 0x10, (byte) 0x11, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x03, (byte) 0x66};
-
-
-            byte[] receBuf = new byte[1024];
-            DatagramPacket recePacket = new DatagramPacket(receBuf, receBuf.length);
-            datagramSocket.receive(recePacket);
-
-            byte[] res = recePacket.getData();
-            System.out.println(Arrays.toString(res));
-//            String serverIp = recePacket.getAdress();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            // 关闭socket
-            if (datagramSocket != null) {
-                datagramSocket.close();
-            }
-        }
-    }
-}
-*/
