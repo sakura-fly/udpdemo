@@ -16,6 +16,7 @@ public class UdpClient {
         this.receiveListener = receiveListener;
         datagramSocket = new DatagramSocket();
         address = InetAddress.getByName(host);
+        datagramSocket.setSoTimeout(10000);
     }
 
     public byte[] send(byte[] buf) throws IOException {
