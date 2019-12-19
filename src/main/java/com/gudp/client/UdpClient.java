@@ -18,6 +18,9 @@ public class UdpClient {
         address = InetAddress.getByName(host);
         datagramSocket.setSoTimeout(10000);
     }
+    public UdpClient(String host, int port) throws SocketException, UnknownHostException {
+         this(host,port,null);
+    }
 
     public byte[] send(byte[] buf) throws IOException {
         DatagramPacket datagramPacket = new DatagramPacket(buf, buf.length, address, port);
