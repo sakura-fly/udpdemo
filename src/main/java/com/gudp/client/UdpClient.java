@@ -10,16 +10,27 @@ public class UdpClient {
     private DatagramSocket datagramSocket;
     private InetAddress address;
     private ReceiveListener receiveListener;
+    private int timeOut = 5000;
+    private String host;
 
-    public UdpClient(String host, int port, ReceiveListener receiveListener) throws SocketException, UnknownHostException {
+    public void setTimeOut(int timeOut) {
+        this.timeOut = timeOut;
+    }
+
+    public UdpClient(String host, int port, ReceiveListener receiveListener)  {
         this.port = port;
         this.receiveListener = receiveListener;
-        datagramSocket = new DatagramSocket();
-        address = InetAddress.getByName(host);
-        datagramSocket.setSoTimeout(10000);
+        this.host = host;
     }
+
+    public void connect() throws SocketException, UnknownHostException {
+        address = InetAddress.getByName(host);
+        datagramSocket = new DatagramSocket();
+        datagramSocket.setSoTimeout(timeOut);
+    }
+
     public UdpClient(String host, int port) throws SocketException, UnknownHostException {
-         this(host,port,null);
+        this(host, port, null);
     }
 
     public byte[] send(byte[] buf) throws IOException {
