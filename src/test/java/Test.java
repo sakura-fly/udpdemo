@@ -21,6 +21,7 @@ public class Test {
 //            }
 //        });
         UdpClient client = new UdpClient("192.168.2.253", 1030);
+        client.setTimeOut(10000);
         client.connect();
         long time1 = System.currentTimeMillis();
         System.out.println(client.send(data).length);
