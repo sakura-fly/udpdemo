@@ -20,7 +20,15 @@ public class Test {
 //                System.out.println("err");
 //            }
 //        });
-        UdpClient client = new UdpClient("192.168.2.253", 1030);
+        /*UdpClient client = new UdpClient("192.168.2.253", 1030);
+        client.setTimeOut(10000);
+        client.connect();
+        long time1 = System.currentTimeMillis();
+        System.out.println(client.send(data).length);
+        client.close();
+        long time2 = System.currentTimeMillis();
+        System.out.println(time2 - time1);*/
+        UdpClient client = UdpClient.getUdpClient("192.168.2.253", 1030);
         client.setTimeOut(10000);
         client.connect();
         long time1 = System.currentTimeMillis();
