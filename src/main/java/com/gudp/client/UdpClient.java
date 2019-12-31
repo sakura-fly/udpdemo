@@ -12,6 +12,18 @@ public class UdpClient {
     private ReceiveListener receiveListener;
     private int timeOut = 5000;
     private String host;
+    private static UdpClient udpClient;
+
+    public static UdpClient getUdpClient(String host, int port) throws SocketException, UnknownHostException {
+        if (udpClient == null){
+            synchronized (UdpClient.class){
+                if (udpClient == null){
+                    udpClient = new UdpClient(host, port);
+                }
+            }
+        }
+        return udpClient;
+    }
 
     public void setTimeOut(int timeOut) {
         this.timeOut = timeOut;
